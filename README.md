@@ -36,24 +36,25 @@ extension2{}:
   disc: { type: keyword }
   b: { type: keyword }
 
-model:
-  type: polymorphic
-  discriminator: disc
-  schemas:
-    "1": { use: "/extension1" }
-    "2": { use: "/extension2" }
-
+record:
+  properties:
+    a:
+      type: polymorphic
+      discriminator: disc
+      schemas:
+        "1": { use: "/extension1" }
+        "2": { use: "/extension2" }
 ```
 
 The following are valid instances:
 
 ```yaml
 
-model:
+a:
   disc: "1"
   a: "blah"
 ---
-model:
+a:
   disc: "2"
   b: "blah"
 ```
@@ -61,11 +62,11 @@ model:
 Invalid instance:
 
 ```yaml
-model:
+a:
   disc: "3"
   b: "blah"
 ---
-model:
+a:
   disc: "1"
   a: "blah"
   b: "blah"
