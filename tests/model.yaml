@@ -1,0 +1,26 @@
+record:
+  use: invenio
+  properties:
+    metadata:
+      properties:
+        a:
+          type: polymorphic
+          discriminator: disc
+          schemas:
+            "1": { use: "#/$defs/extension1" }
+            "2": { use: "#/$defs/extension2" }
+  module:
+    qualified: mock_record
+
+$defs:
+  extension1:
+    type: object
+    properties:
+      disc: { type: keyword }
+      a: { type: keyword }
+
+  extension2:
+    type: object
+    properties:
+      disc: { type: keyword }
+      b: { type: keyword }
