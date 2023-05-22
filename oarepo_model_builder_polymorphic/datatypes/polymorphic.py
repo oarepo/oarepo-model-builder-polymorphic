@@ -3,17 +3,14 @@ from oarepo_model_builder.datatypes import (DataTypeComponent, ModelDataType,
                                             ObjectDataType, Section, datatypes)
 from oarepo_model_builder.datatypes.components import (
     MarshmallowModelComponent, UIMarshmallowModelComponent)
+from oarepo_model_builder.datatypes.containers.object import ObjectPropertiesField
 
 
 class PolymorphicDataType(ObjectDataType):
     model_type = "polymorphic"
 
     class ModelSchema(ObjectDataType.ModelSchema):
-        schemas = ma.fields.Dict(
-            ma.fields.Str(),
-            ma.fields.Nested(lambda: ObjectDataType.validator()),
-            load_default={},
-        )
+        schemas = ObjectPropertiesField()
         discriminator = ma.fields.String(default="type")
 
     def prepare(self, context):
