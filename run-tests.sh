@@ -22,6 +22,7 @@ fi
  fi
 
  python3 -m venv .venv-tests
+.venv-tests/bin/pip install -U setuptools pip wheel
 
  source .venv-tests/bin/activate
  pip install -r tests/requirements.txt
