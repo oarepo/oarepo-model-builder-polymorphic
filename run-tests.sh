@@ -10,6 +10,7 @@ python3 -m venv .venv-builder
 .venv-builder/bin/pip install -U setuptools pip wheel
 
 .venv-builder/bin/pip install -e .
+.venv-builder/bin/pip install oarepo-model-builder-vocabularies
 
 if [ -d built-record ] ; then 
     rm -rf built-record
