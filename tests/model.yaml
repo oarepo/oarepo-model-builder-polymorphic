@@ -9,6 +9,13 @@ record:
           schemas:
             "1": { use: "#/$defs/extension1" }
             "2": { use: "#/$defs/extension2" }
+        creator:
+          type: polymorphic
+          discriminator: type
+          schemas:
+            "person": { use: "#/$defs/person" }
+            "org": { use: "#/$defs/org" }
+
   module:
     qualified: mock_record
 
@@ -25,6 +32,24 @@ $defs:
     properties:
       disc: { type: keyword }
       b: { type: keyword }
+
+  person:
+    type: object
+    properties:
+      type: { type: keyword }
+      name: { type: keyword }
+      birthdate:
+        type: date
+        required: true
+
+  org:
+    type: object
+    properties:
+      type: { type: keyword }
+      name: { type: keyword }
+      ror:
+        type: keyword
+        required: true
 
 settings:
   i18n-languages: ['en']
