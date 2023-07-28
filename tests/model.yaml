@@ -18,9 +18,13 @@ $defs:
     properties:
       disc: { type: keyword }
       a: { type: keyword }
+      c: { type: vocabulary, vocabulary-type: languages }
 
   extension2:
     type: object
     properties:
       disc: { type: keyword }
       b: { type: keyword }
+
+settings:
+  i18n-languages: ['en']

@@ -2,6 +2,7 @@ import os
 
 import pytest
 from invenio_app.factory import create_app as _create_app
+from invenio_vocabularies.records.models import VocabularyType
 
 
 @pytest.fixture(scope="module")
@@ -33,3 +34,27 @@ def app_config(app_config):
 def create_app(instance_path, entry_points):
     """Application factory fixture."""
     return _create_app
+
+
+@pytest.fixture(scope="module")
+def vocabulary_service(app):
+    """Vocabularies service object."""
+    return app.extensions["invenio-vocabularies"].service
+
+
+@pytest.fixture()
+def lang_type(app, db):
+    """Get a language vocabulary type."""
+    v = VocabularyType.create(id="languages", pid_type="lng")
+    db.session.commit()
+    return v
+
+
+@pytest.fixture(scope="function")
+def lang_data(vocabulary_service, lang_type):
+    from invenio_access.permissions import system_identity
+
+    vocabulary_service.create(
+        system_identity,
+        {"id": "en", "type": "languages", "title": {"en": "English"}},
+    )

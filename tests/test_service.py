@@ -3,14 +3,17 @@ from mock_record.proxies import current_service
 from mock_record.records.api import MockRecordRecord
 
 
-def test_service(app, db, search_clear):
+def test_service(app, db, search_clear, lang_data):
     created_record_a = current_service.create(
-        system_identity, {"metadata": {"a": {"disc": "1", "a": "a field"}}}
+        system_identity,
+        {"metadata": {"a": {"disc": "1", "a": "a field", "c": {"id": "en"}}}},
     )
     created_record_reread_a = current_service.read(
         system_identity, created_record_a["id"]
     )
     assert created_record_a.data["metadata"] == created_record_reread_a.data["metadata"]
+    assert "c" in created_record_a.data["metadata"]["a"]
+    assert created_record_a.data["metadata"]["a"]["c"]["title"] == {"en": "English"}
 
     created_record_b = current_service.create(
         system_identity, {"metadata": {"a": {"disc": "2", "b": "b field"}}}

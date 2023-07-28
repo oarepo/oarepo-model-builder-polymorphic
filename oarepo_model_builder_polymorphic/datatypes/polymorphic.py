@@ -3,9 +3,9 @@ from oarepo_model_builder.datatypes import (DataTypeComponent, ModelDataType,
                                             ObjectDataType, Section, datatypes)
 from oarepo_model_builder.datatypes.components import (
     MarshmallowModelComponent, UIMarshmallowModelComponent)
-from oarepo_model_builder.datatypes.containers.object import ObjectPropertiesField
+from oarepo_model_builder.datatypes.containers.object import \
+    ObjectPropertiesField
 
-# TODO: handle relations (such as vocabularies) inside polymorphic datatype
 
 class PolymorphicDataType(ObjectDataType):
     model_type = "polymorphic"
@@ -25,6 +25,7 @@ class PolymorphicDataType(ObjectDataType):
             dt = datatypes.get_datatype(
                 self, schema, schema_key, self.model, self.schema
             )
+            dt.skip_in_path = True
             dt.prepare(context)
             self.polymorphic_children[schema_key] = dt
             self.children.update(dt.children)
