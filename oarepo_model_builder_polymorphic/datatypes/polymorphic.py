@@ -5,6 +5,7 @@ from oarepo_model_builder.datatypes.components import (
     MarshmallowModelComponent, UIMarshmallowModelComponent)
 from oarepo_model_builder.datatypes.containers.object import ObjectPropertiesField
 
+# TODO: handle relations (such as vocabularies) inside polymorphic datatype
 
 class PolymorphicDataType(ObjectDataType):
     model_type = "polymorphic"
