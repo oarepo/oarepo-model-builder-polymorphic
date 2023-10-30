@@ -54,19 +54,15 @@ class PolymorphicComponent(DataTypeComponent):
         config = datatype.section_marshmallow.config
         if "base-classes" in config:
             for bc in config["base-classes"]:
-                if bc == "ma.Schema":
-                    base_classes.append("PolymorphicSchema")
+                if bc == "marshmallow.Schema":
+                    base_classes.append("oarepo_runtime.services.schema.polymorphic.PolymorphicSchema")
                 else:
                     base_classes.append(bc)
             config["base-classes"] = base_classes
         else:
-            config["base-classes"] = ["PolymorphicSchema"]
-
-        config.setdefault("imports", []).append(
-            {"import": "oarepo_runtime.polymorphic.PolymorphicSchema"}
-        )
+            config["base-classes"] = ["oarepo_runtime.services.schema.polymorphic.PolymorphicSchema"]
 
         extra_fields = config.setdefault("extra-fields", [])
         extra_fields.append(
-            {"name": f"type_field", "value": f"{repr(datatype.discriminator)}"}
+            {"name": f"type_field", "value": repr(datatype.discriminator)}
         )
