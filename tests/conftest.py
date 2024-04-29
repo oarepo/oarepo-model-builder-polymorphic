@@ -27,6 +27,12 @@ def app_config(app_config):
             "port": os.environ.get("OPENSEARCH_PORT", "9200"),
         }
     ]
+    from oarepo_vocabularies.services.config import VocabulariesConfig
+    from oarepo_vocabularies.resources.config import VocabulariesResourceConfig
+
+    app_config["VOCABULARIES_SERVICE_CONFIG"] = VocabulariesConfig
+    app_config["VOCABULARIES_RESOURCE_CONFIG"] = VocabulariesResourceConfig
+
     return app_config
 
 
@@ -41,6 +47,11 @@ def vocabulary_service(app):
     """Vocabularies service object."""
     return app.extensions["invenio-vocabularies"].service
 
+@pytest.fixture()
+def vocab_cf(app, db, cache):
+    from oarepo_runtime.services.custom_fields.mappings import prepare_cf_indices
+
+    prepare_cf_indices()
 
 @pytest.fixture()
 def lang_type(app, db):
@@ -51,8 +62,9 @@ def lang_type(app, db):
 
 
 @pytest.fixture(scope="function")
-def lang_data(vocabulary_service, lang_type):
+def lang_data(vocabulary_service, lang_type, vocab_cf):
     from invenio_access.permissions import system_identity
+
 
     vocabulary_service.create(
         system_identity,
