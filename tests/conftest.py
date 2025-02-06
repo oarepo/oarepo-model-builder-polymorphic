@@ -32,7 +32,10 @@ def app_config(app_config):
 
     app_config["VOCABULARIES_SERVICE_CONFIG"] = VocabulariesConfig
     app_config["VOCABULARIES_RESOURCE_CONFIG"] = VocabulariesResourceConfig
-
+    app_config["SQLALCHEMY_ENGINE_OPTIONS"] = { # hack to avoid pool_timeout set in invenio_app_rdm
+        "pool_pre_ping": False,
+        "pool_recycle": 3600
+    }
     return app_config
 
 
